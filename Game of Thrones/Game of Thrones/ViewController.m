@@ -48,43 +48,41 @@ static NSUInteger const heightUnit = 40;
     nameLabel.text = @"Nombre";
     [self.view addSubview:nameLabel];
     
-    self.name = [[UITextField alloc] initWithFrame:[self frameWithNumberOfHeightsUnits:1 relativeToView:nameLabel]];
+    self.name = [UITextField new];
     self.name.borderStyle = UITextBorderStyleRoundedRect;
     self.name.placeholder = @"Nombre";
-    [self.view addSubview:self.name];
+    [self addControl:self.name underControl:nameLabel withHeightUnits:1];
 }
 
 - (void)setUpBiografyInput {
-    UILabel *biografyLabel = [[UILabel alloc] initWithFrame:[self frameWithNumberOfHeightsUnits:1 relativeToView:self.name]];
+    UILabel *biografyLabel = [UILabel new];
     biografyLabel.text = @"Biografía";
-    [self.view addSubview:biografyLabel];
+    [self addControl:biografyLabel underControl:self.name withHeightUnits:1];
     
-    self.biografy = [[UITextView alloc] initWithFrame:[self frameWithNumberOfHeightsUnits:2 relativeToView:biografyLabel]];
-    [self.view addSubview:self.biografy];
+    self.biografy = [UITextView new];
+    [self addControl:self.biografy underControl:biografyLabel withHeightUnits:3];
 }
 
 - (void)setUpHouse {
     self.house = [[UISegmentedControl alloc] initWithItems:@[@"Stark", @"Lannister", @"Targaryen", @"Baratheon"]];
-    self.house.frame = [self frameWithNumberOfHeightsUnits:1 relativeToView:self.biografy];
-    
-    [self.view addSubview:self.house];
+    [self addControl:self.house underControl:self.biografy withHeightUnits:1];
 }
 
 - (void)setUpEvilness {
-    UILabel *evilnessLabel = [[UILabel alloc] initWithFrame:[self frameWithNumberOfHeightsUnits:1 relativeToView:self.house]];
+    UILabel *evilnessLabel = [UILabel new];
     evilnessLabel.text = @"Maldad";
-    [self.view addSubview:evilnessLabel];
+    [self addControl:evilnessLabel underControl:self.house withHeightUnits:1];
     
-    self.evilness = [[UISlider alloc] initWithFrame:[self frameWithNumberOfHeightsUnits:1 relativeToView:evilnessLabel]];
+    self.evilness = [UISlider new];
     self.evilness.minimumValue = 0;
     self.evilness.maximumValue = 100;
     self.evilness.minimumTrackTintColor = [UIColor redColor];
     self.evilness.maximumTrackTintColor = [UIColor greenColor];
-    [self.view addSubview:self.evilness];
+    [self addControl:self.evilness underControl:evilnessLabel withHeightUnits:1];
 }
 
 - (void)setUpKill {
-    UIView *killView = [[UIView alloc] initWithFrame:[self frameWithNumberOfHeightsUnits:1 relativeToView:self.evilness]];
+    UIView *killView = [[UIView alloc] initWithFrame:[self frameWithNumberOfHeightsUnits:1 relativeToFrame:self.evilness.frame]];
     self.kill = [[UISwitch alloc] initWithFrame:CGRectMake(killView.bounds.origin.x, killView.bounds.origin.y, 0, killView.bounds.size.height)];
     [killView addSubview:self.kill];
     
@@ -96,15 +94,23 @@ static NSUInteger const heightUnit = 40;
 
 - (void)setUpSaveButton {
     self.saveButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.saveButton.frame = [self frameWithNumberOfHeightsUnits:1 relativeToView:self.kill.superview];
     [self.saveButton setTitle:@"Guardar" forState:UIControlStateNormal];
     [self.saveButton setTitle:@"Rellena todos los campos" forState:UIControlStateDisabled];
     
-    [self.view addSubview:self.saveButton];
+    [self addControl:self.saveButton underControl:self.kill.superview withHeightUnits:1];
 }
 
-- (CGRect)frameWithNumberOfHeightsUnits:(NSUInteger)heightUnitis relativeToView:(UIView *)view {
-    return CGRectMake(padding, view.frame.size.height + view.frame.origin.y + margin, self.screenSize.width - 2 * padding, heightUnitis * heightUnit);
+- (void)addControl:(UIView *)bottomControl underControl:(UIView *)upperControl withHeightUnits:(NSUInteger)heightUnits {
+    bottomControl.frame = [self frameWithNumberOfHeightsUnits:heightUnits relativeToFrame:upperControl.frame];
+    [self.view addSubview:bottomControl];
+}
+
+- (void)setHeightInUnits:(NSUInteger)heightUnits forControl:(UIView *)control {
+    control.bounds = CGRectInset(control.bounds, heightUnits * heightUnit, CGRectGetWidth(control.bounds));
+}
+
+- (CGRect)frameWithNumberOfHeightsUnits:(NSUInteger)heightUnitis relativeToFrame:(CGRect)frame {
+    return CGRectMake(padding, frame.size.height + frame.origin.y + margin, self.screenSize.width - 2 * padding, heightUnitis * heightUnit);
 }
 
 @end
