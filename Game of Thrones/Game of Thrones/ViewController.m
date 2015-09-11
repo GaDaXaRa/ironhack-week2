@@ -44,23 +44,15 @@ static NSUInteger const heightUnit = 40;
 }
 
 - (void)setUpNameInput {
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding, 3 * margin, self.screenSize.width - 2 * padding, heightUnit)];
-    nameLabel.text = @"Nombre";
-    [self.view addSubview:nameLabel];
-    
     self.name = [UITextField new];
     self.name.borderStyle = UITextBorderStyleRoundedRect;
     self.name.placeholder = @"Nombre";
-    [self addControl:self.name underControl:nameLabel withHeightUnits:1];
+    [self addControl:self.name underControl:nil withHeightUnits:1 andLabelText:@"Nombre"];
 }
 
 - (void)setUpBiografyInput {
-    UILabel *biografyLabel = [UILabel new];
-    biografyLabel.text = @"Biografía";
-    [self addControl:biografyLabel underControl:self.name withHeightUnits:1];
-    
     self.biografy = [UITextView new];
-    [self addControl:self.biografy underControl:biografyLabel withHeightUnits:3];
+    [self addControl:self.biografy underControl:self.name withHeightUnits:3 andLabelText:@"Biografía"];
 }
 
 - (void)setUpHouse {
@@ -69,16 +61,12 @@ static NSUInteger const heightUnit = 40;
 }
 
 - (void)setUpEvilness {
-    UILabel *evilnessLabel = [UILabel new];
-    evilnessLabel.text = @"Maldad";
-    [self addControl:evilnessLabel underControl:self.house withHeightUnits:1];
-    
     self.evilness = [UISlider new];
     self.evilness.minimumValue = 0;
     self.evilness.maximumValue = 100;
     self.evilness.minimumTrackTintColor = [UIColor redColor];
     self.evilness.maximumTrackTintColor = [UIColor greenColor];
-    [self addControl:self.evilness underControl:evilnessLabel withHeightUnits:1];
+    [self addControl:self.evilness underControl:self.house withHeightUnits:1 andLabelText:@"Maldad"];
 }
 
 - (void)setUpKill {
@@ -100,8 +88,24 @@ static NSUInteger const heightUnit = 40;
     [self addControl:self.saveButton underControl:self.kill.superview withHeightUnits:1];
 }
 
+- (void)addControl:(UIView *)bottomControl underControl:(UIView *)upperControl withHeightUnits:(NSUInteger)heightUnits andLabelText:(NSString *)labelText {
+    UILabel *textLabel = [UILabel new];
+    textLabel.text = labelText;
+    if (upperControl) {
+        [self addControl:textLabel underControl:upperControl withHeightUnits:1];
+    } else {
+        [self addControl:textLabel underFrame:CGRectZero withHeightUnits:1];
+    }
+    
+    [self addControl:bottomControl underControl:textLabel withHeightUnits:heightUnits];
+}
+
 - (void)addControl:(UIView *)bottomControl underControl:(UIView *)upperControl withHeightUnits:(NSUInteger)heightUnits {
-    bottomControl.frame = [self frameWithNumberOfHeightsUnits:heightUnits relativeToFrame:upperControl.frame];
+    [self addControl:bottomControl underFrame:upperControl.frame withHeightUnits:heightUnits];
+}
+
+- (void)addControl:(UIView *)bottomControl underFrame:(CGRect)frame withHeightUnits:(NSUInteger)heightUnits {
+    bottomControl.frame = [self frameWithNumberOfHeightsUnits:heightUnits relativeToFrame:frame];
     [self.view addSubview:bottomControl];
 }
 
