@@ -8,6 +8,13 @@
 
 #import "ViewController.h"
 
+typedef NS_ENUM(NSUInteger, Evilness) {
+    EvilnessGood,
+    EvilnessBad,
+    EvilnessVeryBad,
+    EvilnessTrueEvil
+};
+
 static NSUInteger const padding = 16;
 static NSUInteger const margin = 8;
 
@@ -49,7 +56,6 @@ static NSUInteger const heightUnit = 40;
     self.name.placeholder = @"Nombre";
     self.name.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.name.delegate = self;
-    [self assignImageNamed:@"baratheon" toTextFieldLeftView:self.name];
     [self addControl:self.name underControl:nil withHeightUnits:1 andLabelText:@"Nombre"];
 }
 
@@ -61,6 +67,29 @@ static NSUInteger const heightUnit = 40;
     imageView.frame = CGRectMake(0, 0, 40, 40);
     textField.leftViewMode = UITextFieldViewModeAlways;
     textField.leftView = imageView;
+}
+
+- (void)assignEvilness:(Evilness)evilness toTextFieldRightView:(UITextField *)textField {
+    UILabel *evilnessLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    textField.rightViewMode = UITextFieldViewModeAlways;
+    textField.rightView = evilnessLabel;
+    
+    switch (evilness) {
+        case EvilnessGood:
+            evilnessLabel.text = @"😊";
+            break;
+        case EvilnessBad:
+            evilnessLabel.text = @"😑";
+            break;
+        case EvilnessVeryBad:
+            evilnessLabel.text = @"😠";
+            break;
+        case EvilnessTrueEvil:
+            evilnessLabel.text = @"😡";
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)setUpBiografyInput {
@@ -90,6 +119,7 @@ static NSUInteger const heightUnit = 40;
     self.evilness.maximumValue = 100;
     self.evilness.minimumTrackTintColor = [UIColor redColor];
     self.evilness.maximumTrackTintColor = [UIColor greenColor];
+    [self.evilness addTarget:self action:@selector(evilnessChanged:) forControlEvents:UIControlEventValueChanged];
     [self addControl:self.evilness underControl:self.house withHeightUnits:1 andLabelText:@"Maldad"];
 }
 
@@ -136,6 +166,21 @@ static NSUInteger const heightUnit = 40;
     }
     
     [self.view endEditing:YES];
+}
+
+#pragma  mark - Evilness target/action
+
+- (void)evilnessChanged:(UISlider *)evilnessSlider {
+    CGFloat evilnessValue = evilnessSlider.value;
+    if (evilnessValue >= 0 && evilnessValue < 25.0) {
+        [self assignEvilness:EvilnessGood toTextFieldRightView:self.name];
+    } else if (evilnessValue >= 25.0 && evilnessValue < 50.0) {
+        [self assignEvilness:EvilnessBad toTextFieldRightView:self.name];
+    } else if (evilnessValue >= 50.0 && evilnessValue < 75.0) {
+        [self assignEvilness:EvilnessVeryBad toTextFieldRightView:self.name];
+    } else {
+        [self assignEvilness:EvilnessTrueEvil toTextFieldRightView:self.name];
+    }
 }
 
 #pragma mark - UITextFieldDelegate
