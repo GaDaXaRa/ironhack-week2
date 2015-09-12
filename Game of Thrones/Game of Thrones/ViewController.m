@@ -13,7 +13,7 @@ static NSUInteger const margin = 8;
 
 static NSUInteger const heightUnit = 40;
 
-@interface ViewController ()
+@interface ViewController () <UITextFieldDelegate>
 
 @property (strong, nonatomic) UITextField *name;
 @property (strong, nonatomic) UITextView *biografy;
@@ -47,6 +47,8 @@ static NSUInteger const heightUnit = 40;
     self.name = [UITextField new];
     self.name.borderStyle = UITextBorderStyleRoundedRect;
     self.name.placeholder = @"Nombre";
+    self.name.clearButtonMode = UITextFieldViewModeWhileEditing;
+    self.name.delegate = self;
     [self assignImageNamed:@"baratheon" toTextFieldLeftView:self.name];
     [self addControl:self.name underControl:nil withHeightUnits:1 andLabelText:@"Nombre"];
 }
@@ -93,11 +95,28 @@ static NSUInteger const heightUnit = 40;
 
 - (void)setUpSaveButton {
     self.saveButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.saveButton setTitle:@"Guardar" forState:UIControlStateNormal];
+    [self.saveButton setTitle:@"Añadir" forState:UIControlStateNormal];
     [self.saveButton setTitle:@"Rellena todos los campos" forState:UIControlStateDisabled];
     
     [self addControl:self.saveButton underControl:self.kill.superview withHeightUnits:1];
 }
+
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == self.name) {
+        [self.saveButton setTitle:[NSString stringWithFormat:@"Añadir a %@", textField.text] forState:UIControlStateNormal];
+    }
+    
+    [textField resignFirstResponder];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - Addind controls
 
 - (void)addControl:(UIView *)bottomControl underControl:(UIView *)upperControl withHeightUnits:(NSUInteger)heightUnits andLabelText:(NSString *)labelText {
     UILabel *textLabel = [UILabel new];
