@@ -13,7 +13,7 @@ static NSUInteger const margin = 8;
 
 static NSUInteger const heightUnit = 40;
 
-@interface ViewController () <UITextFieldDelegate>
+@interface ViewController () <UITextFieldDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) UITextField *name;
 @property (strong, nonatomic) UITextView *biografy;
@@ -65,7 +65,15 @@ static NSUInteger const heightUnit = 40;
 
 - (void)setUpBiografyInput {
     self.biografy = [UITextView new];
+    self.biografy.delegate = self;
+    [self addBiografyPlaceHolder];
     [self addControl:self.biografy underControl:self.name withHeightUnits:3 andLabelText:@"Biografía"];
+}
+
+- (void)addBiografyPlaceHolder {
+    self.biografy.textColor = [UIColor lightGrayColor];
+    self.biografy.text = @"Añade la biografía del personaje";
+    self.biografy.tag = 0;
 }
 
 - (void)setUpHouse {
@@ -113,6 +121,28 @@ static NSUInteger const heightUnit = 40;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    if (textView == self.biografy && textView.tag == 0) {
+        textView.text = @"";
+        textView.textColor = [UIColor blackColor];
+        textView.tag = 1;
+    }
+    
+    return YES;
+}
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
+    if (textView == self.biografy && [textView.text length] == 0) {
+        [self addBiografyPlaceHolder];
+    }
+    
+    [textView resignFirstResponder];
+    
     return YES;
 }
 
