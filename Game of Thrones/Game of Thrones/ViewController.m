@@ -31,6 +31,8 @@ static NSUInteger const heightUnit = 40;
 @property (strong, nonatomic) UILabel *deadOrAliveLabel;
 @property (strong, nonatomic) UIButton *saveButton;
 
+@property (strong, nonatomic) UIScrollView *scrollView;
+
 @end
 
 @implementation ViewController
@@ -39,6 +41,7 @@ static NSUInteger const heightUnit = 40;
     [super viewDidLoad];
     self.screenSize = self.view.frame.size;
     [self setUpInterface];
+    [self setUpScrollViewSize];
 }
 
 - (void)setUpInterface {
@@ -131,7 +134,7 @@ static NSUInteger const heightUnit = 40;
     self.deadOrAliveLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.kill.frame.size.width + padding, killView.bounds.origin.y, killView.bounds.size.width / 2 - padding, self.kill.frame.size.height)];
     [self showDeadOrAliveText];
     [killView addSubview:self.deadOrAliveLabel];
-    [self.view addSubview:killView];
+    [self.scrollView addSubview:killView];
     
     [self.kill addTarget:self action:@selector(killChanged:) forControlEvents:UIControlEventValueChanged];
 }
@@ -153,6 +156,12 @@ static NSUInteger const heightUnit = 40;
     [self activateOrDeactivateSaveButton];
     
     [self addControl:self.saveButton underControl:self.kill.superview withHeightUnits:1];
+}
+
+- (void)setUpScrollViewSize {
+    UIView *lastView = [[self.scrollView subviews] lastObject];
+    CGFloat sizeContent = lastView.frame.origin.y + lastView.frame.size.height;
+    self.scrollView.contentSize = CGSizeMake(self.screenSize.width, sizeContent);
 }
 
 #pragma mark - Activating / Desactivating save button
@@ -272,7 +281,7 @@ static NSUInteger const heightUnit = 40;
 
 - (void)addControl:(UIView *)bottomControl underFrame:(CGRect)frame withHeightUnits:(NSUInteger)heightUnits {
     bottomControl.frame = [self frameWithNumberOfHeightsUnits:heightUnits relativeToFrame:frame];
-    [self.view addSubview:bottomControl];
+    [self.scrollView addSubview:bottomControl];
 }
 
 - (void)setHeightInUnits:(NSUInteger)heightUnits forControl:(UIView *)control {
@@ -281,6 +290,17 @@ static NSUInteger const heightUnit = 40;
 
 - (CGRect)frameWithNumberOfHeightsUnits:(NSUInteger)heightUnitis relativeToFrame:(CGRect)frame {
     return CGRectMake(padding, frame.size.height + frame.origin.y + margin, self.screenSize.width - 2 * padding, heightUnitis * heightUnit);
+}
+
+#pragma mark - Lazy getting
+
+- (UIScrollView *)scrollView {
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+        [self.view addSubview:_scrollView];
+    }
+    
+    return _scrollView;
 }
 
 @end
