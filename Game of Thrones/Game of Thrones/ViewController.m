@@ -158,10 +158,21 @@ static NSUInteger const heightUnit = 40;
     [self addControl:self.saveButton underControl:self.kill.superview withHeightUnits:1];
 }
 
+#pragma mark - ScrollView
+
 - (void)setUpScrollViewSize {
     UIView *lastView = [[self.scrollView subviews] lastObject];
     CGFloat sizeContent = lastView.frame.origin.y + lastView.frame.size.height;
     self.scrollView.contentSize = CGSizeMake(self.screenSize.width, sizeContent);
+}
+
+- (UIScrollView *)scrollView {
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+        [self.view addSubview:_scrollView];
+    }
+    
+    return _scrollView;
 }
 
 #pragma mark - Activating / Desactivating save button
@@ -292,15 +303,10 @@ static NSUInteger const heightUnit = 40;
     return CGRectMake(padding, frame.size.height + frame.origin.y + margin, self.screenSize.width - 2 * padding, heightUnitis * heightUnit);
 }
 
-#pragma mark - Lazy getting
+#pragma mark - Orientations
 
-- (UIScrollView *)scrollView {
-    if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
-        [self.view addSubview:_scrollView];
-    }
-    
-    return _scrollView;
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 @end
