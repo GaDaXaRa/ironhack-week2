@@ -47,7 +47,18 @@ static NSUInteger const heightUnit = 40;
     self.name = [UITextField new];
     self.name.borderStyle = UITextBorderStyleRoundedRect;
     self.name.placeholder = @"Nombre";
+    [self assignImageNamed:@"baratheon" toTextFieldLeftView:self.name];
     [self addControl:self.name underControl:nil withHeightUnits:1 andLabelText:@"Nombre"];
+}
+
+- (void)assignImageNamed:(NSString *)imageName toTextFieldLeftView:(UITextField *)textField {
+    UIImage *image = [UIImage imageNamed:imageName];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
+    imageView.frame = CGRectMake(0, 0, 40, 40);
+    textField.leftViewMode = UITextFieldViewModeAlways;
+    textField.leftView = imageView;
 }
 
 - (void)setUpBiografyInput {
