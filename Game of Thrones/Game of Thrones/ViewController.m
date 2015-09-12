@@ -77,7 +77,10 @@ static NSUInteger const heightUnit = 40;
 }
 
 - (void)setUpHouse {
-    self.house = [[UISegmentedControl alloc] initWithItems:@[@"Stark", @"Lannister", @"Targaryen", @"Baratheon"]];
+    self.house = [[UISegmentedControl alloc] initWithItems:@[@"Stark", @"Lannister", @"Targaryen", @"Baratheon", @"Tully"]];
+    [self.house setWidth:50 forSegmentAtIndex:0];
+    [self.house setWidth:50 forSegmentAtIndex:4];
+    [self.house addTarget:self action:@selector(houseChanged:) forControlEvents:UIControlEventValueChanged];
     [self addControl:self.house underControl:self.biografy withHeightUnits:1];
 }
 
@@ -107,6 +110,32 @@ static NSUInteger const heightUnit = 40;
     [self.saveButton setTitle:@"Rellena todos los campos" forState:UIControlStateDisabled];
     
     [self addControl:self.saveButton underControl:self.kill.superview withHeightUnits:1];
+}
+
+#pragma mark - House selection target/action
+
+- (void)houseChanged:(UISegmentedControl *)housesSegmentedControl {
+    switch (housesSegmentedControl.selectedSegmentIndex) {
+        case 0:
+            [self assignImageNamed:@"stark" toTextFieldLeftView:self.name];
+            break;
+        case 1:
+            [self assignImageNamed:@"lannister" toTextFieldLeftView:self.name];
+            break;
+        case 2:
+            [self assignImageNamed:@"targaryen" toTextFieldLeftView:self.name];
+            break;
+        case 3:
+            [self assignImageNamed:@"baratheon" toTextFieldLeftView:self.name];
+            break;
+        case 4:
+            [self assignImageNamed:@"tully" toTextFieldLeftView:self.name];
+            break;
+        default:
+            break;
+    }
+    
+    [self.view endEditing:YES];
 }
 
 #pragma mark - UITextFieldDelegate
