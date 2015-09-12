@@ -150,8 +150,19 @@ static NSUInteger const heightUnit = 40;
     self.saveButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.saveButton setTitle:@"Añadir" forState:UIControlStateNormal];
     [self.saveButton setTitle:@"Rellena todos los campos" forState:UIControlStateDisabled];
+    [self activateOrDeactivateSaveButton];
     
     [self addControl:self.saveButton underControl:self.kill.superview withHeightUnits:1];
+}
+
+#pragma mark - Activating / Desactivating save button
+
+- (void)activateOrDeactivateSaveButton {
+    if ([self.name.text length] && self.biografy.tag == 1 && self.house.selectedSegmentIndex != UISegmentedControlNoSegment) {
+        self.saveButton.enabled = YES;
+    } else {
+        self.saveButton.enabled = NO;
+    }
 }
 
 #pragma mark - House selection target/action
@@ -176,7 +187,7 @@ static NSUInteger const heightUnit = 40;
         default:
             break;
     }
-    
+    [self activateOrDeactivateSaveButton];
     [self.view endEditing:YES];
 }
 
@@ -208,6 +219,7 @@ static NSUInteger const heightUnit = 40;
         [self.saveButton setTitle:[NSString stringWithFormat:@"Añadir a %@", textField.text] forState:UIControlStateNormal];
     }
     
+    [self activateOrDeactivateSaveButton];
     [textField resignFirstResponder];
 }
 
@@ -233,6 +245,7 @@ static NSUInteger const heightUnit = 40;
         [self addBiografyPlaceHolder];
     }
     
+    [self activateOrDeactivateSaveButton];
     [textView resignFirstResponder];
     
     return YES;
