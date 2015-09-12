@@ -129,9 +129,21 @@ static NSUInteger const heightUnit = 40;
     [killView addSubview:self.kill];
     
     self.deadOrAliveLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.kill.frame.size.width + padding, killView.bounds.origin.y, killView.bounds.size.width / 2 - padding, self.kill.frame.size.height)];
-    self.deadOrAliveLabel.text = @"Vivo";
+    [self showDeadOrAliveText];
     [killView addSubview:self.deadOrAliveLabel];
     [self.view addSubview:killView];
+    
+    [self.kill addTarget:self action:@selector(killChanged:) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)showDeadOrAliveText {
+    if (self.kill.on) {
+        self.deadOrAliveLabel.text = @"Muerto";
+        self.deadOrAliveLabel.textColor = [UIColor redColor];
+    } else {
+        self.deadOrAliveLabel.text = @"Vivo";
+        self.deadOrAliveLabel.textColor = [UIColor blackColor];
+    }
 }
 
 - (void)setUpSaveButton {
@@ -181,6 +193,12 @@ static NSUInteger const heightUnit = 40;
     } else {
         [self assignEvilness:EvilnessTrueEvil toTextFieldRightView:self.name];
     }
+}
+
+#pragma mark - Kill target/action
+
+- (void)killChanged:(UISwitch *)killSwitch {
+    [self showDeadOrAliveText];
 }
 
 #pragma mark - UITextFieldDelegate
