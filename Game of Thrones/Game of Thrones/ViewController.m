@@ -90,11 +90,12 @@ static NSUInteger const heightUnit = 40;
 
 - (void)addControl:(UIView *)bottomControl underControl:(UIView *)upperControl withHeightUnits:(NSUInteger)heightUnits andLabelText:(NSString *)labelText {
     UILabel *textLabel = [UILabel new];
+    textLabel.font = [UIFont systemFontOfSize:12.0];
     textLabel.text = labelText;
     if (upperControl) {
         [self addControl:textLabel underControl:upperControl withHeightUnits:1];
     } else {
-        [self addControl:textLabel underFrame:CGRectZero withHeightUnits:1];
+        [self addControl:textLabel underFrame:CGRectMake(0, 2 * margin, 0, 0) withHeightUnits:1];
     }
     
     [self addControl:bottomControl underControl:textLabel withHeightUnits:heightUnits];
