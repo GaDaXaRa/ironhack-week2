@@ -14,6 +14,9 @@
 		3FB7CD741BA338EA00040E9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FB7CD731BA338EA00040E9F /* Images.xcassets */; };
 		3FB7CD771BA338EA00040E9F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB7CD751BA338EA00040E9F /* LaunchScreen.xib */; };
 		3FB7CD831BA338EA00040E9F /* Game_of_ThronesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7CD821BA338EA00040E9F /* Game_of_ThronesTests.m */; };
+		3FB7CD8E1BA4992B00040E9F /* CharacterPicturesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7CD8D1BA4992B00040E9F /* CharacterPicturesDataSource.m */; };
+		3FB7CD911BA49DBD00040E9F /* CharacterImageSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7CD901BA49DBD00040E9F /* CharacterImageSelectorViewController.m */; };
+		3FB7CD941BA49FC800040E9F /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7CD931BA49FC800040E9F /* BaseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,12 @@
 		3FB7CD7C1BA338EA00040E9F /* Game of ThronesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Game of ThronesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FB7CD811BA338EA00040E9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FB7CD821BA338EA00040E9F /* Game_of_ThronesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Game_of_ThronesTests.m; sourceTree = "<group>"; };
+		3FB7CD8C1BA4992B00040E9F /* CharacterPicturesDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterPicturesDataSource.h; sourceTree = "<group>"; };
+		3FB7CD8D1BA4992B00040E9F /* CharacterPicturesDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterPicturesDataSource.m; sourceTree = "<group>"; };
+		3FB7CD8F1BA49DBD00040E9F /* CharacterImageSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterImageSelectorViewController.h; sourceTree = "<group>"; };
+		3FB7CD901BA49DBD00040E9F /* CharacterImageSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterImageSelectorViewController.m; sourceTree = "<group>"; };
+		3FB7CD921BA49FC800040E9F /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		3FB7CD931BA49FC800040E9F /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +98,12 @@
 				3FB7CD731BA338EA00040E9F /* Images.xcassets */,
 				3FB7CD751BA338EA00040E9F /* LaunchScreen.xib */,
 				3FB7CD661BA338EA00040E9F /* Supporting Files */,
+				3FB7CD8C1BA4992B00040E9F /* CharacterPicturesDataSource.h */,
+				3FB7CD8D1BA4992B00040E9F /* CharacterPicturesDataSource.m */,
+				3FB7CD8F1BA49DBD00040E9F /* CharacterImageSelectorViewController.h */,
+				3FB7CD901BA49DBD00040E9F /* CharacterImageSelectorViewController.m */,
+				3FB7CD921BA49FC800040E9F /* BaseViewController.h */,
+				3FB7CD931BA49FC800040E9F /* BaseViewController.m */,
 			);
 			path = "Game of Thrones";
 			sourceTree = "<group>";
@@ -220,8 +235,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FB7CD6F1BA338EA00040E9F /* ViewController.m in Sources */,
+				3FB7CD941BA49FC800040E9F /* BaseViewController.m in Sources */,
 				3FB7CD6C1BA338EA00040E9F /* AppDelegate.m in Sources */,
+				3FB7CD911BA49DBD00040E9F /* CharacterImageSelectorViewController.m in Sources */,
 				3FB7CD691BA338EA00040E9F /* main.m in Sources */,
+				3FB7CD8E1BA4992B00040E9F /* CharacterPicturesDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
